@@ -15,69 +15,71 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.otsi.ui.theme.LoadingBlue
 
 @Composable
 fun GoogleButton(
-    modifier : Modifier = Modifier ,
-    loadingState : Boolean = true ,
-    primaryText : String = "Sing in with Google",
-    secondaryText : String = "Please wait ",
-    icon : Int = com.google.android.gms.base.R.drawable.googleg_standard_color_18,
-    shape : Shape = shapes.medium,
-    borderColor : Color = Color.LightGray ,
-    backgroundColor: Color = MaterialTheme.colors.surface ,
-    progressIndicatorColor : Color = LoadingBlue ,
+    modifier: Modifier = Modifier,
+    loadingState: Boolean = true,
+    primaryText: String = "Sing in with Google",
+    secondaryText: String = "Please wait ",
+    icon: Int = com.google.android.gms.base.R.drawable.googleg_standard_color_18,
+    shape: Shape = shapes.medium,
+    borderColor: Color = Color.LightGray,
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    borderStrokeWidth: Dp = 1.dp,
+    progressIndicatorColor: Color = LoadingBlue,
     onClick: () -> Unit,
 ) {
     var buttonText by remember { mutableStateOf(primaryText) }
-    LaunchedEffect(key1 = loadingState){
+    LaunchedEffect(key1 = loadingState) {
         buttonText = if (loadingState) secondaryText else primaryText
     }
-    Surface (
-        modifier = modifier.
-                clickable(enabled = !loadingState) {// only clickable if we are not in the loading state
-                    onClick()
-                },
+    Surface(
+        modifier = modifier.clickable(enabled = !loadingState) {// only clickable if we are not in the loading state
+            onClick()
+        },
         shape = shape,
-        border = BorderStroke(width = 1.dp , color = borderColor),
+        border = BorderStroke(width = borderStrokeWidth, color = borderColor),
         color = backgroundColor,
-            ) {
-        Row(modifier = Modifier
-            .padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 16.dp)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = LinearOutSlowInEasing
-                )
-            )
-            , verticalAlignment = Alignment.CenterVertically,
-              horizontalArrangement = Arrangement.Center) {
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(12.dp)
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 300,
+                        easing = LinearOutSlowInEasing
+                    )
+                ), verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = "Google Logo",
                 tint = Color.Unspecified
             )
-            Spacer(modifier= Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(text = buttonText)
-            if(loadingState){
-                Spacer(modifier= Modifier.width(15.dp))
+            if (loadingState) {
+                Spacer(modifier = Modifier.width(15.dp))
                 CircularProgressIndicator(
-                    modifier= Modifier.size(16.dp),
+                    modifier = Modifier.size(16.dp),
                     strokeWidth = 3.dp,
-                    color = progressIndicatorColor)
+                    color = progressIndicatorColor
+                )
             }
-            
-            
+
 
         }
     }
-    
+
 }
 
 @Composable
 @Preview
 fun GoogleButtonPreview() {
-    GoogleButton{}
+    GoogleButton {}
 }
