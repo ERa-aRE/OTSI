@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OTSI</string>
+    <string name="login_detail">if you want to use this app ,\n first you need to sign in .</string>
 </resources>
